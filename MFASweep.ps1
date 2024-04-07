@@ -151,7 +151,8 @@ Function Invoke-MFASweep{
 
     $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
 
-    $result = $host.ui.PromptForChoice($title, $message, $options, 0)
+    #$result = $host.ui.PromptForChoice($title, $message, $options, 0)
+    $result = "yes"
 
     if ($result -ne 0)
     {
