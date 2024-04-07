@@ -58,11 +58,16 @@ Function Invoke-MFASweep{
 
     [Parameter(Position = 2, Mandatory = $False)]
     [Switch]
+    $STFU,
+	
+    [Parameter(Position = 2, Mandatory = $False)]
+    [Switch]
     $IncludeADFS
     
     )
 
     Write-Host "---------------- MFASweep ----------------"
+	Write-Host $Recon
     $Tab = [char]9
     if ($Recon -eq $false){
 
@@ -139,7 +144,7 @@ Function Invoke-MFASweep{
 
     }
 
-
+	if ($STFU -eq $false){
     $title = "Confirm MFA Sweep"
     $message = "[*] WARNING: This script is about to attempt logging into the $username account TEN (10) different times (11 if you included ADFS). If you entered an incorrect password this may lock the account out. Are you sure you want to continue?"
 
@@ -151,9 +156,14 @@ Function Invoke-MFASweep{
 
     $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
 
-    #$result = $host.ui.PromptForChoice($title, $message, $options, 0)
-    $result = "yes"
-
+    $result = $host.ui.PromptForChoice($title, $message, $options, 0)
+	}
+	else{
+	$options = "Yes"
+	$result = "0"
+	}
+	
+	write-host $result
     if ($result -ne 0)
     {
         Write-Host -ForegroundColor Yellow "[*] Stopping the execution of the script."
